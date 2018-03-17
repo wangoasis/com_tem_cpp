@@ -1,5 +1,4 @@
-SUBDIR = chp_1
 all:
-	+$(MAKE) -C $(SUBDIR)
-check:
-	+$(MAKE) check -C $(SUBDIR)
+	+$(MAKE) -C chp_1
+	+$(MAKE) -C chp_3
+	+$(MAKE) -C chp_4
