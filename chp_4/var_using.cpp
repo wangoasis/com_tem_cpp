@@ -43,9 +43,9 @@ int main()
     using printOneToThreeInt = Overloader<printOneInt, printTwoInt, printThreeInt>;
     printOneToThreeInt printOp;
 
-    printOp(2);
-    printOp(2, 4);
-    printOp(1, 65, 2);
+    printOp(2); // call the operator() from printOneInt
+    printOp(2, 4);// call the operator() from printTwoInt
+    printOp(1, 65, 2);// call the operator() from printThreeInt
 
     // using dummyPrintInt = Overloader<printOneInt, dummy_p>;
     // Overload two same operator(), will cause error
