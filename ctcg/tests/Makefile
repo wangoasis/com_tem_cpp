@@ -7,7 +7,7 @@ G++ = g++
 G++_FLAGS = -c -Wall -isystem $(GOOGLE_TEST_INCLUDE)
 LD_FLAGS = $(GOOGLE_TEST_LIB) -l pthread
 
-OBJECTS = run_tests.o testTypeList.o
+OBJECTS = run_tests.o testTypeList.o testIfThenElse.o
 TARGET = run_tests
 
 all: $(TARGET)

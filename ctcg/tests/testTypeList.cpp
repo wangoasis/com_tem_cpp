@@ -8,6 +8,8 @@ using namespace ctcg::tl;
 class S {
 public:
     S() {}
+private:
+    int a[10];
 };
 
 TEST(testTypeList, Front)
@@ -73,4 +75,24 @@ TEST(testTypeList, Back)
 {
     using types = TypeList<int, double, S>;
     EXPECT_TRUE((std::is_same_v<Back<types>, S>));
+}
+
+TEST(testTypeList, LargestType_1)
+{
+    using types = TypeList<int, double, char>;
+    EXPECT_TRUE((std::is_same_v<LargestType<types>, double>));
+}
+
+TEST(testTypeList, LargestType_2)
+{
+    using types = TypeList<S, double, char>;
+    EXPECT_TRUE((std::is_same_v<LargestType<types>, S>));
+}
+
+TEST(testTypeList, FindIndexOf)
+{
+    using types = TypeList<S, double, char>;
+    EXPECT_EQ((FindIndexOf<types, S>::value), 0);
+    EXPECT_EQ((FindIndexOf<types, double>::value), 1);
+    EXPECT_EQ((FindIndexOf<types, char>::value), 2);
 }
