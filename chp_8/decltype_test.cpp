@@ -1,11 +1,13 @@
+#include <gtest/gtest.h>
+
 #include <iostream>
-#include <string>
-#include <vector>
 #include <memory>
+#include <string>
 #include <unordered_set>
+#include <vector>
 
 template <typename T, unsigned N>
-std::size_t len(T(&)[N])
+std::size_t len(T (&)[N])
 {
     std::cout << "called with T&[N]" << std::endl;
     return N;
@@ -16,12 +18,13 @@ std::size_t len(T(&)[N])
 // Compiler would check whether all expressions are valid
 // If not, the function template are not matched
 // If so, the return type is the last parameter of decltype
-// Notice that "typename T::size_type()", both "typename" and "()" 
+// Notice that "typename T::size_type()", both "typename" and "()"
 // are necessary
 template <typename T>
 auto len(T const& t) -> decltype(t.size(), typename T::size_type())
 {
-    std::cout << "called with T.size(), using decltype to set return type" << std::endl;
+    std::cout << "called with T.size(), using decltype to set return type"
+              << std::endl;
     return t.size();
 }
 
@@ -32,9 +35,9 @@ std::size_t len(...)
     return 0;
 }
 
-int main() 
+TEST(chp_8, decltype)
 {
-    int *p = nullptr;
+    int* p = nullptr;
     std::allocator<int> ax;
     std::vector<int> v{10, 1};
     std::string s("hello");
@@ -45,6 +48,7 @@ int main()
     len(s);         // called with T.size()
     len(se);        // called with T.size()
     len(v);         // called with T.size()
-    len(p);         // no matching function 
-    len(ax);        // no matching function, because allocator<T> has no size() member function
+    len(p);         // no matching function
+    len(ax);  // no matching function, because allocator<T> has no size() member
+              // function
 }

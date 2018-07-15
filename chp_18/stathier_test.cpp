@@ -1,33 +1,34 @@
-#include "header/stathier.hpp"
+#include <gtest/gtest.h>
 #include <vector>
+#include "stathier.hpp"
 
-template<typename GeoObj>
-void myDraw (GeoObj const& obj)
+template <typename GeoObj>
+void myDraw(GeoObj const& obj)
 {
-    obj.draw();    
+    obj.draw();
 }
 
-template<typename GeoObj>
-void drawElems (std::vector<GeoObj> const& elems)
+template <typename GeoObj>
+void drawElems(std::vector<GeoObj> const& elems)
 {
-    for (unsigned i=0; i<elems.size(); ++i) {
-        elems[i].draw();    
+    for (unsigned i = 0; i < elems.size(); ++i) {
+        elems[i].draw();
     }
 }
 
-int main()
+TEST(chp_18, stathier)
 {
     Line l;
     Circle c;
 
-    myDraw(l);        // myDraw<Line>(GeoObj\&) => Line::draw()
-    myDraw(c);        // myDraw<Circle>(GeoObj\&) => Circle::draw()
+    myDraw(l);  // myDraw<Line>(GeoObj\&) => Line::draw()
+    myDraw(c);  // myDraw<Circle>(GeoObj\&) => Circle::draw()
 
-    std::vector<Line> coll;   // OK: homogeneous collection possible
-    coll.push_back(l);        // insert line
-    
+    std::vector<Line> coll;  // OK: homogeneous collection possible
+    coll.push_back(l);       // insert line
+
     // compilation error, cannot append a Circle to a vector of Line
     // coll.push_back(c);
-    
-    drawElems(coll);          // draw all lines
+
+    drawElems(coll);  // draw all lines
 }

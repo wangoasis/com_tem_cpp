@@ -1,27 +1,37 @@
-#include <utility>
-#include <string>
-#include <iostream>
-using std::string; using std::cout; using std::endl;
+#include <gtest/gtest.h>
 
-class Person {
+#include <iostream>
+#include <string>
+#include <utility>
+using std::cout;
+using std::endl;
+using std::string;
+
+class Person
+{
 private:
     string name;
+
 public:
     template <typename STR>
-    explicit Person(STR&& n) : name(std::forward<STR>(n)) {
+    explicit Person(STR&& n) : name(std::forward<STR>(n))
+    {
         cout << "forward constructor called for " << name << endl;
     }
 
-    Person(Person const& p) : name(p.name) {
+    Person(Person const& p) : name(p.name)
+    {
         cout << "copy constructor " << name << endl;
     }
 
-    Person(Person&& p) : name(std::move(p.name)) {
+    Person(Person&& p) : name(std::move(p.name))
+    {
         cout << "move constructor " << name << endl;
     }
 };
 
-int main() {
+TEST(chp_6, function_matching)
+{
     string s("Mike");
 
     Person p1(s);
@@ -35,6 +45,6 @@ int main() {
     // this line works because p3 is const variable
     // calls the copy constructor
     Person p5(p3);
-    
+
     Person p4(std::move(p1));
 }

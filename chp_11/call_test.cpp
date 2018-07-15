@@ -1,10 +1,12 @@
-#include "header/call_with_invoke.hpp"
+#include <gtest/gtest.h>
+
 #include <iostream>
 #include <string>
 
-struct printThreeString
-{
-    void operator() (std::string const& s1, std::string const& s2) const
+#include "call_with_invoke.hpp"
+
+struct printThreeString {
+    void operator()(std::string const& s1, std::string const& s2) const
     {
         std::cout << s1 << " " << s2 << std::endl;
     }
@@ -20,7 +22,8 @@ std::string concatenateTwoStr(std::string const& s1, std::string const& s2)
     return s1 + " " + s2;
 }
 
-int main() {
+TEST(chp_11, call_test)
+{
     printThreeString op;
     std::string s1("hello"), s2("world");
     call(op, s1, s2);

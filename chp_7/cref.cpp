@@ -1,35 +1,37 @@
+#include <gtest/gtest.h>
+
+#include <cassert>
 #include <functional>
 #include <iostream>
 #include <string>
-#include <cassert>
 
-void printString(std::string const& s) {
-    std::cout << s << std::endl;
-}
+void printString(std::string const& s) { std::cout << s << std::endl; }
 
 template <typename T>
-void printT(T arg) {
+void printT(T arg)
+{
     printString(arg);
 }
 
-void modifyNumber(int &s) {
-    s = 100;
-}
+void modifyNumber(int& s) { s = 100; }
 
 template <typename T>
-void modifyT(T arg) {
+void modifyT(T arg)
+{
     modifyNumber(arg);
     std::cout << "Inside modifyT: " << arg << std::endl;
 }
 
-int main() {
+TEST(chp_7, cref)
+{
     std::string s("hello");
     printT(s);
     printT(std::cref(s));
 
     int i = 43;
     modifyT(i);
-    assert(i == 43); // i should not be modified
+    ASSERT_EQ(43, i);  // i should not be modified
+
     modifyT(std::ref(i));
-    assert(i == 100); // i should be modified
+    ASSERT_EQ(100, i);  // i should be modified
 }
