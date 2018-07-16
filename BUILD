@@ -14,6 +14,7 @@ cc_test(
             "//chp_11:test",
             "//chp_18:test",
             "//chp_19:test",
+            "//chp_21:test",
             "//chp_22:test",
             ],
     timeout = "short",
