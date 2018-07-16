@@ -32,7 +32,7 @@ auto len(T const& t) -> decltype(t.size(), typename T::size_type())
 std::size_t len(...)
 {
     std::cout << "No matching function" << std::endl;
-    return 0;
+    return -1;
 }
 
 TEST(chp_8, decltype)
@@ -44,11 +44,11 @@ TEST(chp_8, decltype)
     std::unordered_set<int> se;
     se.insert(1);
 
-    len("hello:");  // called with T&[N]
-    len(s);         // called with T.size()
-    len(se);        // called with T.size()
-    len(v);         // called with T.size()
-    len(p);         // no matching function
-    len(ax);  // no matching function, because allocator<T> has no size() member
-              // function
+    EXPECT_EQ(7, len("hello:"));  // called with T&[N]
+    EXPECT_EQ(5, len(s));         // called with T.size()
+    EXPECT_EQ(1, len(se));        // called with T.size()
+    EXPECT_EQ(2, len(v));         // called with T.size()
+    EXPECT_EQ(-1, len(p));        // no matching function
+    EXPECT_EQ(-1, len(ax));  // no matching function, because allocator<T> has
+                             // no size() member function
 }

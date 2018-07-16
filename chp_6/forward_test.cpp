@@ -9,27 +9,45 @@ class X
 {
 };
 
-void g(X&) { cout << "g(X&) called" << endl; }
+enum class ParamType {
+    lvalue,
+    const_lvalue,
+    rvalue,
+};
 
-void g(X const&) { cout << "g(X const&) called" << endl; }
+ParamType g(X&)
+{
+    cout << "g(X&) called" << endl;
+    return ParamType::lvalue;
+}
 
-void g(X&&) { cout << "g(X&&) called" << endl; }
+ParamType g(X const&)
+{
+    cout << "g(X const&) called" << endl;
+    return ParamType::const_lvalue;
+}
+
+ParamType g(X&&)
+{
+    cout << "g(X&&) called" << endl;
+    return ParamType::rvalue;
+}
 
 // perfect forward
 // T&& for a template parameter T declares a forwarding reference
 // (also called universal reference). It can be bound to a mutable
 // immutable, or movable object.
 template <typename T>
-void f(T&& val)  // universal reference, or forward reference
+ParamType f(T&& val)  // universal reference, or forward reference
 {
-    g(std::forward<T>(val));
+    return g(std::forward<T>(val));
 }
 
 // not right form
 template <typename T>
-void f2(T val)
+ParamType f2(T val)
 {
-    g(val);
+    return g(val);
 }
 
 TEST(chp_6, forward)
@@ -37,12 +55,12 @@ TEST(chp_6, forward)
     X v;
     X const c;
 
-    f(v);              // g(X&)
-    f(c);              // g(X const&)
-    f(X());            // g(X&&)
-    f(std::move(v));   // g(X&&)
-    f2(v);             // g(X&)
-    f2(c);             // g(X&)
-    f2(X());           // g(X&)
-    f2(std::move(v));  // g(X&)
+    EXPECT_EQ(f(v), ParamType::lvalue);
+    EXPECT_EQ(f(c), ParamType::const_lvalue);
+    EXPECT_EQ(f(X()), ParamType::rvalue);
+    EXPECT_EQ(f(std::move(v)), ParamType::rvalue);
+    EXPECT_EQ(f2(v), ParamType::lvalue);
+    EXPECT_EQ(f2(c), ParamType::lvalue);
+    EXPECT_EQ(f2(X()), ParamType::lvalue);
+    EXPECT_EQ(f2(std::move(v)), ParamType::lvalue);
 }
