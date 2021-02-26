@@ -5,9 +5,11 @@
 using namespace ctcg;
 using namespace ctcg::tl;
 
-class S {
+class S
+{
 public:
     S() {}
+
 private:
     int a[10];
 };
