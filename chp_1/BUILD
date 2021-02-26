@@ -1,8 +1,9 @@
-cc_library(
+cc_test(
     name = "test",
-    hdrs = ["maxcommon.hpp",],
-    srcs = ["maxcommon.cpp"],
-    copts = ["-std=c++1z", "-Iexternal/gtest/include"],
-    deps = ["@gtest//:main"],
-    visibility = ["//visibility:public"]
+    srcs = glob([
+        "*.hpp",
+        "*.t.cpp"
+        ]),
+    copts = ["-std=c++1z"],
+    deps = ["@gtest//:gtest_main"],
 )

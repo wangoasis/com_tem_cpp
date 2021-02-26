@@ -1,7 +1,6 @@
-cc_library(
+cc_test(
     name = "test",
-    srcs = ["addvalue.cpp"],
-    copts = ["-std=c++1z", "-Iexternal/gtest/include"],
-    deps = ["@gtest//:main"],
-    visibility = ["//visibility:public"]
+    srcs = glob(["*.t.cpp"]),
+    copts = ["-std=c++1z"],
+    deps = ["@gtest//:gtest_main"],
 )
